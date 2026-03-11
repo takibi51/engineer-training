@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>新入社員研修 - 事業を伸ばせるエンジニアになる</title>
+<style>
+  :root {
+    --primary: #2563eb;
+    --primary-light: #dbeafe;
+    --primary-dark: #1d4ed8;
+    --accent: #f59e0b;
+    --accent-light: #fef3c7;
+    --dark: #1e293b;
+    --gray: #64748b;
+    --light: #f8fafc;
+    --red: #ef4444;
+    --red-light: #fee2e2;
+    --green: #22c55e;
+    --green-light: #dcfce7;
+    --purple: #8b5cf6;
+    --purple-light: #ede9fe;
+    --radius: 16px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+    background: #0f172a;
+    color: var(--dark);
+    overflow: hidden;
+    height: 100vh;
+  }
+
+  #slide-mode {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .slide-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .slide {
+    display: none;
+    width: 960px;
+    height: 540px;
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+    padding: 48px 60px;
+    flex-direction: column;
+    justify-content: center;
+    animation: fadeIn 0.35s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .slide.active { display: flex; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .slide.title-slide {
+    background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 60%, #3b82f6 100%);
+    color: #fff; text-align: center; align-items: center;
+  }
+  .slide.title-slide h1 { font-size: 2.6rem; color: #fff; margin-bottom: 16px; letter-spacing: 2px; }
+  .slide.title-slide .subtitle { font-size: 1.3rem; color: rgba(255,255,255,0.85); font-weight: 400; }
+
+  .slide.section-slide {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    color: #fff; text-align: center; align-items: center;
+  }
+  .slide.section-slide h1 { font-size: 2rem; color: #fff; margin-bottom: 12px; }
+  .slide.section-slide .section-num {
+    font-size: 0.85rem; letter-spacing: 3px; color: var(--accent);
+    margin-bottom: 16px; font-weight: 700;
+  }
+  .slide.section-slide .section-time {
+    font-size: 0.9rem; color: rgba(255,255,255,0.5); margin-top: 12px;
+  }
+
+  .slide.impact-slide { text-align: center; align-items: center; }
+  .slide.impact-slide h1 { font-size: 2.2rem; color: var(--primary); line-height: 1.4; }
+  .slide.impact-slide .impact-sub { font-size: 1.15rem; color: var(--gray); margin-top: 12px; }
+
+  .slide.workshop-slide {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: #fff; border: none;
+  }
+  .slide.workshop-slide h1 { color: #fff; font-size: 2rem; }
+  .slide.workshop-slide h2 { color: #fff; border-bottom-color: rgba(255,255,255,0.4); font-size: 1.4rem; }
+  .slide.workshop-slide p { color: rgba(255,255,255,0.9); }
+  .slide.workshop-slide .ws-badge {
+    display: inline-block; background: rgba(255,255,255,0.2); padding: 6px 16px;
+    border-radius: 20px; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 16px; font-weight: 700;
+  }
+  .slide.workshop-slide .ws-box {
+    background: rgba(255,255,255,0.15); border-radius: 12px; padding: 20px; margin: 12px 0;
+    border: 1px solid rgba(255,255,255,0.25);
+  }
+  .slide.workshop-slide .ws-box h3 { color: #fff; font-size: 1.05rem; margin-bottom: 6px; }
+  .slide.workshop-slide .ws-box p { margin: 0; font-size: 0.95rem; }
+  .slide.workshop-slide ul li { color: rgba(255,255,255,0.9); }
+  .slide.workshop-slide ul li::before { background: #fff; }
+  .slide.workshop-slide table { background: rgba(255,255,255,0.15); border-radius: 8px; overflow: hidden; }
+  .slide.workshop-slide table th { background: rgba(255,255,255,0.2); color: #fff; border: 1px solid rgba(255,255,255,0.2); }
+  .slide.workshop-slide table td { border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.7); }
+
+  .slide h1 { font-size: 1.9rem; color: var(--primary); margin-bottom: 16px; line-height: 1.3; }
+  .slide h2 {
+    font-size: 1.4rem; color: var(--dark); margin-bottom: 16px;
+    padding-bottom: 8px; border-bottom: 3px solid var(--primary); display: inline-block;
+  }
+  .slide p { font-size: 1.05rem; line-height: 1.7; color: #334155; margin-bottom: 10px; }
+  .slide .lead { font-size: 1.15rem; color: var(--gray); margin-bottom: 20px; }
+  .slide ul { list-style: none; padding: 0; }
+  .slide ul li {
+    font-size: 1.05rem; line-height: 1.6; padding: 6px 0 6px 28px; position: relative; color: #334155;
+  }
+  .slide ul li::before {
+    content: ''; position: absolute; left: 6px; top: 14px;
+    width: 9px; height: 9px; border-radius: 50%; background: var(--primary);
+  }
+
+  .highlight-box {
+    background: var(--primary-light); border-left: 5px solid var(--primary);
+    padding: 16px 20px; border-radius: 0 12px 12px 0; margin: 12px 0;
+  }
+  .highlight-box p { margin: 0; font-weight: 600; color: var(--primary); font-size: 1.05rem; }
+  .highlight-box.accent { background: var(--accent-light); border-left-color: var(--accent); }
+  .highlight-box.accent p { color: #92400e; }
+  .highlight-box.red { background: var(--red-light); border-left-color: var(--red); }
+  .highlight-box.red p { color: var(--red); }
+  .highlight-box.green { background: var(--green-light); border-left-color: var(--green); }
+  .highlight-box.green p { color: #15803d; }
+  .highlight-box.purple { background: var(--purple-light); border-left-color: var(--purple); }
+  .highlight-box.purple p { color: var(--purple); }
+
+  .formula { text-align: center; margin: 20px 0; }
+  .formula .big { font-size: 2rem; font-weight: 800; color: var(--dark); line-height: 1.5; }
+  .formula .op { font-size: 1.8rem; color: var(--primary); margin: 0 8px; }
+  .formula .equals { font-size: 1.6rem; color: var(--gray); display: block; margin: 6px 0; }
+
+  .card-grid { display: grid; gap: 12px; margin-top: 10px; }
+  .card-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+  .card-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .card-grid.cols-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+  .card {
+    background: var(--light); border: 2px solid #e2e8f0; border-radius: 12px;
+    padding: 16px; text-align: center;
+  }
+  .card h3 { font-size: 1rem; color: var(--dark); margin-bottom: 4px; }
+  .card p { font-size: 0.85rem; color: var(--gray); margin: 0; line-height: 1.4; }
+  .card .card-icon { font-size: 1.6rem; margin-bottom: 6px; }
+
+  .flow {
+    display: flex; align-items: center; justify-content: center;
+    gap: 10px; margin: 16px 0; flex-wrap: wrap;
+  }
+  .flow-item {
+    background: var(--primary-light); border: 2px solid var(--primary);
+    border-radius: 10px; padding: 12px 18px; font-weight: 700;
+    color: var(--primary); font-size: 1rem;
+  }
+  .flow-arrow { font-size: 1.2rem; color: var(--gray); }
+
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px; }
+  .compare-box { border-radius: 12px; padding: 20px; border: 2px solid; }
+  .compare-box.good { background: var(--green-light); border-color: var(--green); }
+  .compare-box.good h3 { color: #15803d; }
+  .compare-box.bad { background: var(--red-light); border-color: var(--red); }
+  .compare-box.bad h3 { color: var(--red); }
+  .compare-box h3 { font-size: 1.05rem; margin-bottom: 8px; }
+  .compare-box ul li { font-size: 0.9rem; padding: 3px 0 3px 22px; }
+  .compare-box ul li::before { top: 10px; width: 7px; height: 7px; }
+  .compare-box.good ul li::before { background: var(--green); }
+  .compare-box.bad ul li::before { background: var(--red); }
+
+  .example-box {
+    background: #f1f5f9; border-radius: 12px; padding: 16px 20px;
+    margin: 10px 0; border: 1px solid #e2e8f0;
+  }
+  .example-box .label {
+    font-size: 0.75rem; font-weight: 700; color: var(--gray);
+    letter-spacing: 1px; margin-bottom: 6px;
+  }
+
+  .v-flow {
+    display: flex; flex-direction: column; align-items: center; gap: 3px; margin: 12px 0;
+  }
+  .v-flow-item {
+    background: var(--primary-light); border: 2px solid var(--primary);
+    border-radius: 10px; padding: 8px 28px; font-weight: 700;
+    color: var(--primary); font-size: 1rem;
+  }
+  .v-flow-arrow { font-size: 1.1rem; color: var(--gray); }
+
+  .slide-badge {
+    position: absolute; top: 14px; right: 18px;
+    font-size: 0.7rem; color: #cbd5e1; font-weight: 600;
+  }
+
+  .slide-nav {
+    display: flex; align-items: center; justify-content: center;
+    gap: 16px; padding: 14px; background: rgba(255,255,255,0.05);
+  }
+  .slide-nav button {
+    padding: 10px 28px; border: none; border-radius: 8px;
+    font-size: 0.95rem; cursor: pointer; font-weight: 600;
+    transition: all 0.2s; background: var(--primary); color: #fff;
+  }
+  .slide-nav button:hover { background: var(--primary-dark); transform: translateY(-1px); }
+  .slide-nav button:disabled { background: #475569; cursor: not-allowed; transform: none; }
+  .slide-progress { font-size: 0.85rem; color: #94a3b8; min-width: 80px; text-align: center; }
+
+  .slide table {
+    width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 0.9rem;
+  }
+  .slide table th {
+    background: var(--primary); color: #fff; padding: 8px 12px; text-align: left; font-weight: 600;
+  }
+  .slide table td { padding: 8px 12px; border-bottom: 1px solid #e2e8f0; color: #334155; }
+  .slide table tr:nth-child(even) td { background: var(--light); }
+
+  .timeline {
+    display: flex; gap: 0; margin: 16px 0; border-radius: 10px; overflow: hidden;
+    border: 2px solid #e2e8f0;
+  }
+  .timeline-block {
+    padding: 12px 8px; text-align: center; color: #fff; font-size: 0.75rem; font-weight: 600;
+  }
+  .timeline-block h4 { font-size: 0.7rem; margin-bottom: 2px; opacity: 0.8; }
+  .timeline-block p { margin: 0; font-size: 0.85rem; }
+
+  .quiz-box {
+    background: var(--purple-light); border: 2px solid var(--purple);
+    border-radius: 12px; padding: 16px 20px; margin: 10px 0;
+  }
+  .quiz-box .q-label {
+    font-size: 0.75rem; font-weight: 700; color: var(--purple);
+    letter-spacing: 1px; margin-bottom: 6px;
+  }
+  .quiz-box p { color: var(--dark); font-weight: 600; margin: 0; }
+</style>
+</head>
+<body>
+
+<div id="slide-mode">
+  <div class="slide-container">
+
+    <!-- ===== SLIDE 1: Title ===== -->
+    <div class="slide title-slide active" data-slide="0">
+      <p class="subtitle" style="margin-bottom:20px; font-size:0.9rem; letter-spacing:3px;">FUTUREMIND GROUP</p>
+      <h1>新入社員研修</h1>
+      <p class="subtitle" style="font-size:1.5rem;">事業を伸ばせるエンジニアになる</p>
+      <p class="subtitle" style="margin-top:32px; font-size:0.9rem; opacity:0.6;">所要時間：約3時間（休憩含む）</p>
+    </div>
+
+    <!-- ===== SLIDE 2: 研修プログラム ===== -->
+    <div class="slide" data-slide="1">
+      <span class="slide-badge">02</span>
+      <h2>本日の研修プログラム</h2>
+      <div class="timeline">
+        <div class="timeline-block" style="flex:2; background:var(--primary);"><h4>Part 1</h4><p>マインド</p></div>
+        <div class="timeline-block" style="flex:1.5; background:var(--accent);"><h4>Work 1</h4><p>自己分析</p></div>
+        <div class="timeline-block" style="flex:2; background:#334155;"><h4>Part 2</h4><p>経営構造</p></div>
+        <div class="timeline-block" style="flex:0.7; background:#94a3b8;"><h4>休憩</h4><p>10分</p></div>
+        <div class="timeline-block" style="flex:2; background:var(--green);"><h4>Part 3</h4><p>フレーム</p></div>
+        <div class="timeline-block" style="flex:1.5; background:var(--accent);"><h4>Work 2</h4><p>ケース</p></div>
+        <div class="timeline-block" style="flex:2; background:var(--purple);"><h4>Part 4</h4><p>思考・行動</p></div>
+        <div class="timeline-block" style="flex:1.5; background:var(--accent);"><h4>Work 3</h4><p>計画策定</p></div>
+      </div>
+      <table style="font-size:0.8rem;">
+        <tr><th>時間</th><th>内容</th><th>形式</th></tr>
+        <tr><td>0:00-0:30</td><td>Part 1：エンジニアのマインドセット</td><td>講義</td></tr>
+        <tr><td>0:30-0:50</td><td>Work 1：自分の仕事の事業インパクトを考える</td><td>個人+グループ</td></tr>
+        <tr><td>0:50-1:20</td><td>Part 2：経営の基本構造</td><td>講義</td></tr>
+        <tr><td>1:20-1:30</td><td>休憩</td><td>-</td></tr>
+        <tr><td>1:30-2:00</td><td>Part 3：ビジネスフレームワーク</td><td>講義</td></tr>
+        <tr><td>2:00-2:20</td><td>Work 2：ケーススタディ</td><td>グループ</td></tr>
+        <tr><td>2:20-2:40</td><td>Part 4：問題解決の思考法と行動原則</td><td>講義</td></tr>
+        <tr><td>2:40-3:00</td><td>Work 3：アクションプラン策定</td><td>個人+発表</td></tr>
+      </table>
+    </div>
+
+    <!-- ===== SLIDE 3: 本研修の目的 ===== -->
+    <div class="slide" data-slide="2">
+      <span class="slide-badge">03</span>
+      <h2>本研修の目的</h2>
+      <ul>
+        <li>技術者ではなく<strong>「事業を伸ばせるエンジニア」</strong>を育てる</li>
+        <li>指示待ちではなく<strong>自走できる人材の思考構造</strong>をインストールする</li>
+        <li>経営視点で<strong>優先順位を判断できる基礎</strong>をつくる</li>
+      </ul>
+      <div class="highlight-box" style="margin-top:16px;">
+        <p>事業会社で評価されるのは「技術を使って事業を伸ばせる人材」です。<br>この研修では「エンジニアとしてどう考えると成長するか」を伝えます。</p>
+      </div>
+    </div>
+
+    <!-- ===== Part 1 Section ===== -->
+    <div class="slide section-slide" data-slide="3">
+      <div class="section-num">PART 1</div>
+      <h1>エンジニアのマインドセット</h1>
+      <p class="section-time">0:00 - 0:30（30分）</p>
+    </div>
+
+    <!-- ===== SLIDE 5 ===== -->
+    <div class="slide impact-slide" data-slide="4">
+      <span class="slide-badge">05</span>
+      <p class="impact-sub">今日伝えたい一番大事なこと</p>
+      <h1>エンジニアの価値は<br><span style="color:var(--accent);">技術力だけでは決まらない</span></h1>
+    </div>
+
+    <!-- ===== SLIDE 6 ===== -->
+    <div class="slide impact-slide" data-slide="5">
+      <span class="slide-badge">06</span>
+      <p class="impact-sub">企業が評価するのは</p>
+      <h1 style="font-size:2.6rem;">事業インパクト</h1>
+      <div style="margin-top:20px; text-align:left; max-width:500px;">
+        <ul>
+          <li>売上にどう貢献したか</li>
+          <li>顧客価値をどう高めたか</li>
+          <li>事業をどう成長させたか</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 7 ===== -->
+    <div class="slide" data-slide="6">
+      <span class="slide-badge">07</span>
+      <h2>技術力だけでは評価されない理由</h2>
+      <div class="compare">
+        <div class="compare-box bad">
+          <h3>技術だけのエンジニア</h3>
+          <ul>
+            <li>綺麗なコードを書いた</li>
+            <li>新しい技術を使った</li>
+            <li>リファクタリングした</li>
+          </ul>
+          <p style="font-size:0.85rem; color:var(--red); margin-top:8px; font-weight:600;">会社の売上は増えない</p>
+        </div>
+        <div class="compare-box good">
+          <h3>事業を伸ばすエンジニア</h3>
+          <ul>
+            <li>CVRを上げるUI改善をした</li>
+            <li>解約を防ぐバグを修正した</li>
+            <li>業務効率化で工数を削減した</li>
+          </ul>
+          <p style="font-size:0.85rem; color:#15803d; margin-top:8px; font-weight:600;">事業の数字が改善する</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 8 ===== -->
+    <div class="slide" data-slide="7">
+      <span class="slide-badge">08</span>
+      <h2>エンジニアの仕事は事業に直結している</h2>
+      <table>
+        <tr><th>エンジニアの仕事</th><th></th><th>事業への影響</th><th>関連指標</th></tr>
+        <tr><td>バグ修正</td><td style="text-align:center;">&rarr;</td><td>解約率の低下</td><td>Churn Rate</td></tr>
+        <tr><td>表示速度改善</td><td style="text-align:center;">&rarr;</td><td>CVR向上</td><td>Conversion Rate</td></tr>
+        <tr><td>UI改善</td><td style="text-align:center;">&rarr;</td><td>継続率向上</td><td>Retention Rate</td></tr>
+        <tr><td>新機能開発</td><td style="text-align:center;">&rarr;</td><td>顧客単価向上</td><td>ARPU</td></tr>
+        <tr><td>自動化</td><td style="text-align:center;">&rarr;</td><td>オペコスト削減</td><td>人件費</td></tr>
+      </table>
+      <div class="highlight-box">
+        <p>エンジニアの仕事はすべて事業の数字につながっています。</p>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 9 ===== -->
+    <div class="slide" data-slide="8">
+      <span class="slide-badge">09</span>
+      <h2>ベンチャーで求められる人材</h2>
+      <div class="card-grid cols-4">
+        <div class="card" style="border-color:var(--primary);">
+          <div class="card-icon">&#9889;</div>
+          <h3>自走できる</h3>
+          <p>自分で問題を見つけ<br>動ける</p>
+        </div>
+        <div class="card" style="border-color:var(--accent);">
+          <div class="card-icon">&#128161;</div>
+          <h3>仮説を持てる</h3>
+          <p>「なぜ？」から<br>考えられる</p>
+        </div>
+        <div class="card" style="border-color:var(--green);">
+          <div class="card-icon">&#9203;</div>
+          <h3>スピードがある</h3>
+          <p>完璧より<br>早さを優先</p>
+        </div>
+        <div class="card" style="border-color:var(--purple);">
+          <div class="card-icon">&#128200;</div>
+          <h3>事業構造を<br>理解している</h3>
+          <p>数字で語れる</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 10 ===== -->
+    <div class="slide" data-slide="9">
+      <span class="slide-badge">10</span>
+      <h2>ベンチャーにおける自走力</h2>
+      <p class="lead">ベンチャーでは</p>
+      <div class="highlight-box red">
+        <p>指示待ちの人はコストになります。</p>
+      </div>
+      <p>なぜなら<strong>意思決定のスピードが遅くなる</strong>からです。</p>
+      <div class="example-box" style="margin-top:12px;">
+        <div class="label">大企業との違い</div>
+        <p>大企業：マニュアル・承認フローが整備 → 指示通りでOK<br>ベンチャー：ルール未整備・変化が速い → 自分で考えて動く必要がある</p>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 11 ===== -->
+    <div class="slide" data-slide="10">
+      <span class="slide-badge">11</span>
+      <h2>指示待ち vs 自走</h2>
+      <div class="compare">
+        <div class="compare-box bad">
+          <h3>指示待ちの人</h3>
+          <ul>
+            <li>タスクが降ってくるのを待つ</li>
+            <li>判断をすべて上司に委ねる</li>
+            <li>自分で問題を見つけない</li>
+            <li>言われたことだけやる</li>
+          </ul>
+          <p style="font-size:0.85rem; color:var(--red); margin-top:6px; font-weight:600;">組織のスピードが落ちる</p>
+        </div>
+        <div class="compare-box good">
+          <h3>自走する人</h3>
+          <ul>
+            <li>問題を自ら見つける</li>
+            <li>仮説を立てる</li>
+            <li>改善提案をする</li>
+            <li>結果を振り返る</li>
+          </ul>
+          <p style="font-size:0.85rem; color:#15803d; margin-top:6px; font-weight:600;">自分で考えて動ける</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 12 ===== -->
+    <div class="slide impact-slide" data-slide="11">
+      <span class="slide-badge">12</span>
+      <p class="impact-sub">初速の重要性</p>
+      <h1>入社1〜2年目で<br>成長差は大きく開く</h1>
+      <p class="impact-sub" style="margin-top:16px;">理由はシンプル。<strong style="color:var(--dark);">経験量が圧倒的に違う</strong>からです。</p>
+    </div>
+
+    <!-- ===== SLIDE 13 ===== -->
+    <div class="slide impact-slide" data-slide="12">
+      <span class="slide-badge">13</span>
+      <h2 style="border:none; padding:0;">成長速度の公式</h2>
+      <div class="formula">
+        <span class="big">成長</span>
+        <span class="equals">=</span>
+        <span class="big">試行回数 <span class="op">&times;</span> フィードバック</span>
+      </div>
+      <div class="highlight-box">
+        <p>試行回数が多い人ほど、成長が早い。</p>
+      </div>
+      <div class="example-box" style="margin-top:12px;">
+        <div class="label">具体的に</div>
+        <p>週1回チャレンジする人 vs 毎日チャレンジする人<br>1年後の経験差 = <strong>52回 vs 260回</strong>（5倍の差）</p>
+      </div>
+    </div>
+
+    <!-- ===== Work 1 ===== -->
+    <div class="slide workshop-slide" data-slide="13">
+      <span class="slide-badge" style="color:rgba(255,255,255,0.3);">14</span>
+      <div class="ws-badge">WORKSHOP 1</div>
+      <h1>自分の仕事の事業インパクトを考える</h1>
+      <p style="font-size:0.95rem;">0:30 - 0:50（20分）</p>
+      <div class="ws-box">
+        <h3>個人ワーク（10分）</h3>
+        <p>自分が今後担当しそうな仕事を3つ挙げ、<br>それぞれが事業のどの数字に影響するか書き出してください。</p>
+      </div>
+      <div class="ws-box">
+        <h3>グループ共有（10分）</h3>
+        <p>3〜4人グループで共有。<br>「そのインパクトをさらに大きくするには？」を議論してください。</p>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 15: ワークシート ===== -->
+    <div class="slide workshop-slide" data-slide="14">
+      <span class="slide-badge" style="color:rgba(255,255,255,0.3);">15</span>
+      <div class="ws-badge">WORKSHEET</div>
+      <h2>事業インパクト分析シート</h2>
+      <table>
+        <tr>
+          <th style="width:30px;">#</th>
+          <th>担当する仕事</th>
+          <th>影響する事業指標</th>
+          <th>インパクトを大きくするには？</th>
+        </tr>
+        <tr><td style="text-align:center; color:#fff;">1</td><td style="color:rgba(255,255,255,0.5);">例：バグ修正</td><td style="color:rgba(255,255,255,0.5);">解約率</td><td style="color:rgba(255,255,255,0.5);">重要度で優先順位づけ</td></tr>
+        <tr><td style="text-align:center; color:#fff;">2</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td style="text-align:center; color:#fff;">3</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      </table>
+      <div class="ws-box" style="margin-top:16px;">
+        <h3>考えるヒント</h3>
+        <p>売上 / コスト削減 / 顧客満足度 / 生産性 / リスク低減 のどれに効く？</p>
+      </div>
+    </div>
+
+    <!-- ===== Part 2 Section ===== -->
+    <div class="slide section-slide" data-slide="15">
+      <div class="section-num">PART 2</div>
+      <h1>経営の基本構造</h1>
+      <p style="color:rgba(255,255,255,0.6); font-size:0.95rem; margin-top:8px;">エンジニアでも最低限理解しておくべき内容</p>
+      <p class="section-time">0:50 - 1:20（30分）</p>
+    </div>
+
+    <!-- ===== SLIDE 17 ===== -->
+    <div class="slide impact-slide" data-slide="16">
+      <span class="slide-badge">17</span>
+      <p class="impact-sub">会社の目的</p>
+      <h1 style="font-size:2.4rem;">利益を出し続けること</h1>
+      <p class="impact-sub" style="margin-top:16px;">利益がなければ、給料も払えず、サービスも続けられない。</p>
+    </div>
+
+    <!-- ===== SLIDE 18 ===== -->
+    <div class="slide impact-slide" data-slide="17">
+      <span class="slide-badge">18</span>
+      <h2 style="border:none; padding:0;">利益の基本構造</h2>
+      <div class="formula">
+        <span class="big">利益</span>
+        <span class="equals">=</span>
+        <span class="big" style="color:var(--green);">売上</span>
+        <span class="big"> <span class="op">&minus;</span> </span>
+        <span class="big" style="color:var(--red);">コスト</span>
+      </div>
+      <p class="impact-sub">この構造を理解することが経営理解の第一歩</p>
+    </div>
+
+    <!-- ===== SLIDE 19 ===== -->
+    <div class="slide" data-slide="18">
+      <span class="slide-badge">19</span>
+      <h2>売上と数量の分解</h2>
+      <div class="formula" style="margin:16px 0;">
+        <span class="big">売上</span>
+        <span class="equals">=</span>
+        <span class="big">単価 <span class="op">&times;</span> 数量</span>
+      </div>
+      <div class="formula" style="margin:16px 0;">
+        <span class="big" style="font-size:1.6rem;">数量</span>
+        <span class="equals" style="font-size:1.3rem;">=</span>
+        <span class="big" style="font-size:1.6rem;">新規獲得 <span class="op">&minus;</span> 解約</span>
+      </div>
+      <div class="highlight-box">
+        <p>顧客を増やす + 解約を減らす = 事業成長</p>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 20 ===== -->
+    <div class="slide" data-slide="19">
+      <span class="slide-badge">20</span>
+      <h2>SaaSビジネスの重要指標</h2>
+      <div class="card-grid cols-3">
+        <div class="card" style="border-color:var(--primary);">
+          <h3 style="font-size:1.6rem; color:var(--primary);">LTV</h3>
+          <p style="font-weight:600;">Life Time Value</p>
+          <p>顧客がサービス利用期間中に<br>合計で支払う金額</p>
+        </div>
+        <div class="card" style="border-color:var(--accent);">
+          <h3 style="font-size:1.6rem; color:var(--accent);">CAC</h3>
+          <p style="font-weight:600;">Customer Acquisition Cost</p>
+          <p>顧客1人を獲得するための<br>マーケティングコスト</p>
+        </div>
+        <div class="card" style="border-color:var(--red);">
+          <h3 style="font-size:1.6rem; color:var(--red);">Churn</h3>
+          <p style="font-weight:600;">解約率</p>
+          <p>一定期間で解約した<br>顧客の割合</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 21 ===== -->
+    <div class="slide impact-slide" data-slide="20">
+      <span class="slide-badge">21</span>
+      <h2 style="border:none; padding:0;">SaaSビジネスの基本原則</h2>
+      <div class="formula">
+        <span class="big" style="color:var(--primary);">LTV</span>
+        <span class="op" style="font-size:2.2rem;">&gt;</span>
+        <span class="big" style="color:var(--accent);">CAC</span>
+      </div>
+      <div class="highlight-box">
+        <p>これが成立して初めて、ビジネスが成り立つ。</p>
+      </div>
+      <div class="example-box" style="margin-top:12px;">
+        <div class="label">例</div>
+        <p>LTV 24万円 &gt; CAC 5万円 &rarr; 健全<br>LTV 3万円 &lt; CAC 5万円 &rarr; 赤字（獲得するほど損する）</p>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 22 ===== -->
+    <div class="slide" data-slide="21">
+      <span class="slide-badge">22</span>
+      <h2>エンジニアの仕事はPLに直結する</h2>
+      <table>
+        <tr><th>技術課題</th><th></th><th>経営指標への影響</th><th>P/Lへの反映</th></tr>
+        <tr><td>バグ放置</td><td style="text-align:center;">&rarr;</td><td>解約率上昇</td><td style="color:var(--red);">売上減少</td></tr>
+        <tr><td>速度改善</td><td style="text-align:center;">&rarr;</td><td>CVR向上</td><td style="color:var(--green);">売上増加</td></tr>
+        <tr><td>UI改善</td><td style="text-align:center;">&rarr;</td><td>継続率向上</td><td style="color:var(--green);">LTV向上</td></tr>
+        <tr><td>自動化</td><td style="text-align:center;">&rarr;</td><td>工数削減</td><td style="color:var(--green);">コスト削減</td></tr>
+      </table>
+      <div class="highlight-box accent">
+        <p>技術的な判断は、常に事業インパクトの視点で行う。</p>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 23 ===== -->
+    <div class="slide" data-slide="22">
+      <span class="slide-badge">23</span>
+      <h2>コスト意識を持つ</h2>
+      <p>会社から見ると</p>
+      <div class="formula">
+        <span class="big">エンジニア <span class="equals">=</span> <span style="color:var(--red);">人件費</span></span>
+      </div>
+      <div class="example-box">
+        <div class="label">例</div>
+        <p style="text-align:center; font-size:1.1rem;">年収600万円 = 会社にとって<strong style="color:var(--red);">年間600万円以上のコスト</strong><br><span style="font-size:0.85rem; color:var(--gray);">（社会保険料・福利厚生・オフィス代等を含めると実際はもっと多い）</span></p>
+      </div>
+      <div class="highlight-box green" style="margin-top:12px;">
+        <p style="text-align:center; font-size:1.2rem;">コスト &lt; 生み出す価値</p>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 24 ===== -->
+    <div class="slide" data-slide="23">
+      <span class="slide-badge">24</span>
+      <h2>評価される人の共通点</h2>
+      <div class="card-grid cols-3">
+        <div class="card" style="border-color:var(--green);">
+          <div class="card-icon">&#128640;</div>
+          <h3>事業理解がある</h3>
+          <p>ビジネス構造を把握し<br>的確に判断できる</p>
+        </div>
+        <div class="card" style="border-color:var(--green);">
+          <div class="card-icon">&#9889;</div>
+          <h3>スピードがある</h3>
+          <p>高速に試行錯誤し<br>価値を届けられる</p>
+        </div>
+        <div class="card" style="border-color:var(--green);">
+          <div class="card-icon">&#128161;</div>
+          <h3>改善提案できる</h3>
+          <p>現状に満足せず<br>より良い方法を提示</p>
+        </div>
+      </div>
+      <div class="highlight-box green" style="margin-top:12px;">
+        <p>技術力は「前提」。そこに事業理解が加わって初めて評価される。</p>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 25: Quiz ===== -->
+    <div class="slide" data-slide="24">
+      <span class="slide-badge">25</span>
+      <h2>理解度チェック</h2>
+      <div class="quiz-box">
+        <div class="q-label">QUESTION 1</div>
+        <p>LTVが5万円、CACが8万円のサービスは健全？</p>
+      </div>
+      <div class="quiz-box">
+        <div class="q-label">QUESTION 2</div>
+        <p>表示速度を3秒&rarr;1秒に改善。これは「技術的な改善」？「事業的な改善」？</p>
+      </div>
+      <div class="quiz-box">
+        <div class="q-label">QUESTION 3</div>
+        <p>年収500万円のエンジニアが「コスト以上の価値」を出すとは、具体的に何？</p>
+      </div>
+      <p style="text-align:center; color:var(--gray); font-size:0.9rem; margin-top:8px;">隣の人と30秒ずつ話してみてください</p>
+    </div>
+
+    <!-- ===== 休憩 ===== -->
+    <div class="slide section-slide" data-slide="25">
+      <h1 style="font-size:3rem; opacity:0.8;">&#9749;</h1>
+      <h1>休憩</h1>
+      <p class="section-time">10分間（1:20 - 1:30）</p>
+    </div>
+
+    <!-- ===== Part 3 Section ===== -->
+    <div class="slide section-slide" data-slide="26">
+      <div class="section-num">PART 3</div>
+      <h1>ビジネス構造を理解する</h1>
+      <p style="color:rgba(255,255,255,0.6); font-size:0.95rem; margin-top:8px;">事業を理解するためのフレームワーク</p>
+      <p class="section-time">1:30 - 2:00（30分）</p>
+    </div>
+
+    <!-- ===== SLIDE 28: 3C ===== -->
+    <div class="slide" data-slide="27">
+      <span class="slide-badge">28</span>
+      <h2>3C分析</h2>
+      <div class="card-grid cols-3">
+        <div class="card" style="border-color:var(--primary);">
+          <h3 style="font-size:1.4rem; color:var(--primary);">Customer</h3>
+          <p style="font-weight:600;">顧客</p>
+          <p>誰が・何に困っているか</p>
+        </div>
+        <div class="card" style="border-color:var(--accent);">
+          <h3 style="font-size:1.4rem; color:var(--accent);">Competitor</h3>
+          <p style="font-weight:600;">競合</p>
+          <p>他社は何をしているか</p>
+        </div>
+        <div class="card" style="border-color:var(--green);">
+          <h3 style="font-size:1.4rem; color:var(--green);">Company</h3>
+          <p style="font-weight:600;">自社</p>
+          <p>自社の強み・弱みは何か</p>
+        </div>
+      </div>
+      <div class="highlight-box" style="margin-top:12px;">
+        <p>この3つの視点で事業環境を分析する。エンジニアも「誰のために作るか」を常に意識する。</p>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 29 ===== -->
+    <div class="slide impact-slide" data-slide="28">
+      <span class="slide-badge">29</span>
+      <p class="impact-sub">顧客視点</p>
+      <h1>顧客は<br><span style="color:var(--accent);">何に困っているのか</span></h1>
+      <p class="impact-sub" style="margin-top:16px;">これを理解することが事業の出発点です。</p>
+    </div>
+
+    <!-- ===== SLIDE 30: JTBD ===== -->
+    <div class="slide" data-slide="29">
+      <span class="slide-badge">30</span>
+      <h2>JTBD（Jobs To Be Done）</h2>
+      <div class="highlight-box" style="font-size:1.1rem;">
+        <p>顧客は機能ではなく「解決したい仕事」を買っている。</p>
+      </div>
+      <div class="example-box" style="margin-top:12px;">
+        <div class="label">有名な例</div>
+        <p>ドリルを買う人が欲しいのは「ドリル」ではなく「穴」</p>
+      </div>
+      <div class="example-box">
+        <div class="label">エンジニアへの示唆</div>
+        <p>「この機能を作って」と言われたとき、<br>本当に解決すべき<strong>顧客のジョブ</strong>は何か？を考える癖をつける。</p>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 31: バリューチェーン ===== -->
+    <div class="slide" data-slide="30">
+      <span class="slide-badge">31</span>
+      <h2>バリューチェーン</h2>
+      <p>事業の価値がどこで生まれているかを理解するフレーム</p>
+      <div class="flow" style="margin-top:20px;">
+        <div class="flow-item">企画</div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-item">開発</div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-item">マーケ</div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-item">営業</div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-item">CS</div>
+      </div>
+      <div class="highlight-box">
+        <p>自分の仕事がチェーンのどこに位置し、前後の工程に何を届けるか。</p>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 32: KSF ===== -->
+    <div class="slide" data-slide="31">
+      <span class="slide-badge">32</span>
+      <h2>KSF（Key Success Factor）</h2>
+      <p>その事業が勝つための<strong>重要成功要因</strong></p>
+      <div class="card-grid cols-2" style="margin-top:16px;">
+        <div class="card" style="border-color:var(--primary);">
+          <h3>SaaSの場合</h3>
+          <ul style="text-align:left;">
+            <li>解約率の低さ</li>
+            <li>オンボーディングの質</li>
+            <li>プロダクトの使いやすさ</li>
+          </ul>
+        </div>
+        <div class="card" style="border-color:var(--accent);">
+          <h3>ECの場合</h3>
+          <ul style="text-align:left;">
+            <li>物流スピード</li>
+            <li>レコメンド精度</li>
+            <li>決済の手軽さ</li>
+          </ul>
+        </div>
+      </div>
+      <div class="highlight-box accent" style="margin-top:12px;">
+        <p>自社のKSFを理解し、そこにエンジニアリングを集中させる。</p>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 33: KPIツリー ===== -->
+    <div class="slide" data-slide="32">
+      <span class="slide-badge">33</span>
+      <h2>KPIツリー</h2>
+      <div class="v-flow">
+        <div class="flow-item" style="background:var(--primary); color:#fff; border-color:var(--primary);">売上（上位KPI）</div>
+        <div class="v-flow-arrow">&darr;</div>
+        <div style="display:flex; gap:10px;">
+          <div class="flow-item" style="font-size:0.9rem; padding:8px 14px;">新規顧客数</div>
+          <div class="flow-item" style="font-size:0.9rem; padding:8px 14px;">顧客単価</div>
+          <div class="flow-item" style="font-size:0.9rem; padding:8px 14px;">継続率</div>
+        </div>
+        <div class="v-flow-arrow">&darr;</div>
+        <div style="display:flex; gap:10px;">
+          <div class="flow-item" style="font-size:0.8rem; padding:6px 12px; background:var(--green-light); border-color:var(--green); color:#15803d;">LP改善</div>
+          <div class="flow-item" style="font-size:0.8rem; padding:6px 12px; background:var(--green-light); border-color:var(--green); color:#15803d;">機能追加</div>
+          <div class="flow-item" style="font-size:0.8rem; padding:6px 12px; background:var(--green-light); border-color:var(--green); color:#15803d;">バグ修正</div>
+          <div class="flow-item" style="font-size:0.8rem; padding:6px 12px; background:var(--green-light); border-color:var(--green); color:#15803d;">UX改善</div>
+        </div>
+      </div>
+      <div class="highlight-box">
+        <p>自分のタスクがKPIツリーのどこに位置するかを意識する。</p>
+      </div>
+    </div>
+
+    <!-- ===== Work 2: ケーススタディ ===== -->
+    <div class="slide workshop-slide" data-slide="33">
+      <span class="slide-badge" style="color:rgba(255,255,255,0.3);">34</span>
+      <div class="ws-badge">WORKSHOP 2</div>
+      <h1>ケーススタディ</h1>
+      <p style="font-size:0.95rem;">2:00 - 2:20（20分）</p>
+      <div class="ws-box">
+        <h3>ケース</h3>
+        <p>あなたはSaaSプロダクトのエンジニアです。<br>以下の3つのタスクが同時に依頼されました。どの順番で取り組みますか？</p>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 35: ケース詳細 ===== -->
+    <div class="slide workshop-slide" data-slide="34">
+      <span class="slide-badge" style="color:rgba(255,255,255,0.3);">35</span>
+      <div class="ws-badge">CASE STUDY</div>
+      <h2>3つのタスク</h2>
+      <div class="ws-box">
+        <h3>A. コードリファクタリング（工数：2週間）</h3>
+        <p>技術負債の解消。将来の開発速度が上がるが、ユーザーへの直接的な影響はない。</p>
+      </div>
+      <div class="ws-box">
+        <h3>B. 決済エラーのバグ修正（工数：2日）</h3>
+        <p>月に5件ほど決済が失敗する。影響を受けた顧客から問い合わせが来ている。</p>
+      </div>
+      <div class="ws-box">
+        <h3>C. 新機能の開発（工数：1週間）</h3>
+        <p>営業チームが「これがあれば大口契約が取れる」と言っている機能。</p>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 36: ケース議論 ===== -->
+    <div class="slide workshop-slide" data-slide="35">
+      <span class="slide-badge" style="color:rgba(255,255,255,0.3);">36</span>
+      <div class="ws-badge">DISCUSSION</div>
+      <h2>議論のポイント</h2>
+      <div class="ws-box">
+        <h3>グループワーク（15分）</h3>
+        <ul>
+          <li>それぞれのタスクは事業のどの指標に影響する？</li>
+          <li>2&times;2マトリクス（インパクト &times; 工数）で整理するとどうなる？</li>
+          <li>優先順位とその理由を3分で発表できるようにまとめる</li>
+        </ul>
+      </div>
+      <div class="ws-box">
+        <h3>発表（5分）</h3>
+        <p>各グループの結論を共有。正解はひとつではありません。<br>「なぜその順番か」の<strong>思考プロセス</strong>が大事です。</p>
+      </div>
+    </div>
+
+    <!-- ===== Part 4 Section ===== -->
+    <div class="slide section-slide" data-slide="36">
+      <div class="section-num">PART 4</div>
+      <h1>問題解決の思考法と行動原則</h1>
+      <p class="section-time">2:20 - 2:40（20分）</p>
+    </div>
+
+    <!-- ===== SLIDE 38: 仮説思考 ===== -->
+    <div class="slide" data-slide="37">
+      <span class="slide-badge">38</span>
+      <h2>仮説思考</h2>
+      <div class="flow">
+        <div class="flow-item" style="background:var(--primary); color:#fff; border-color:var(--primary);">事実</div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-item">仮説</div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-item">検証</div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-item" style="background:var(--green-light); border-color:var(--green); color:#15803d;">改善</div>
+      </div>
+      <div class="highlight-box">
+        <p>このサイクルを高速で回すことが重要。</p>
+      </div>
+      <div class="example-box" style="margin-top:12px;">
+        <div class="label">悪い例 vs 良い例</div>
+        <p>&#10060; 「なんとなくこの機能を改善しよう」<br>&#9989; 「離脱率が高い。ボタン配置が原因では？（仮説）&rarr; ABテストで検証」</p>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 39: MECE ===== -->
+    <div class="slide" data-slide="38">
+      <span class="slide-badge">39</span>
+      <h2>MECE</h2>
+      <div class="card-grid cols-2" style="max-width:480px; margin:16px auto;">
+        <div class="card" style="border-color:var(--primary);">
+          <h3 style="font-size:1.2rem; color:var(--primary);">漏れなく</h3>
+          <p>Mutually Exclusive</p>
+        </div>
+        <div class="card" style="border-color:var(--accent);">
+          <h3 style="font-size:1.2rem; color:var(--accent);">ダブりなく</h3>
+          <p>Collectively Exhaustive</p>
+        </div>
+      </div>
+      <p style="text-align:center;">問題を構造的に分解する。</p>
+      <div class="example-box" style="margin-top:12px;">
+        <div class="label">エンジニアでの活用例</div>
+        <p>バグの原因を探すとき：フロント / API / DB / インフラ に分けて切り分ける</p>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 40: そら・あめ・かさ ===== -->
+    <div class="slide" data-slide="39">
+      <span class="slide-badge">40</span>
+      <h2>そら・あめ・かさ</h2>
+      <div class="card-grid cols-3">
+        <div class="card" style="border-color:var(--primary);">
+          <h3 style="font-size:1.3rem;">&#9728;&#65039; そら</h3>
+          <p style="font-weight:600; color:var(--primary);">事実</p>
+          <p>何が起きているか</p>
+        </div>
+        <div class="card" style="border-color:var(--gray);">
+          <h3 style="font-size:1.3rem;">&#127783;&#65039; あめ</h3>
+          <p style="font-weight:600; color:var(--gray);">解釈</p>
+          <p>何が起きそうか</p>
+        </div>
+        <div class="card" style="border-color:var(--accent);">
+          <h3 style="font-size:1.3rem;">&#9748; かさ</h3>
+          <p style="font-weight:600; color:var(--accent);">対策</p>
+          <p>何をすべきか</p>
+        </div>
+      </div>
+      <div class="example-box" style="margin-top:12px;">
+        <div class="label">報告の例</div>
+        <p>&#9728;&#65039; リリース後、離脱率が20%上昇（事実）<br>&#127783;&#65039; 新UIが分かりにくい可能性がある（解釈）<br>&#9748; ユーザーテストを実施しUIを修正する（対策）</p>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 41: 2x2マトリクス ===== -->
+    <div class="slide" data-slide="40">
+      <span class="slide-badge">41</span>
+      <h2>2&times;2マトリクス（優先順位判断）</h2>
+      <div style="display:grid; grid-template-columns:40px 1fr 1fr; grid-template-rows:auto 1fr 1fr; gap:2px; max-width:500px; margin:16px auto; text-align:center;">
+        <div></div>
+        <div style="padding:6px; font-weight:700; color:var(--gray); font-size:0.85rem;">インパクト大</div>
+        <div style="padding:6px; font-weight:700; color:var(--gray); font-size:0.85rem;">インパクト小</div>
+        <div style="display:flex; align-items:center; justify-content:center; font-weight:700; color:var(--gray); font-size:0.8rem; writing-mode:vertical-rl;">工数小</div>
+        <div style="background:var(--green-light); padding:20px; border-radius:12px 0 0 0; border:2px solid var(--green);">
+          <p style="font-weight:700; color:#15803d; font-size:1rem; margin:0;">&#127775; 最優先</p>
+          <p style="font-size:0.75rem; color:#15803d; margin:4px 0 0;">Quick Win</p>
+        </div>
+        <div style="background:#f1f5f9; padding:20px; border-radius:0 12px 0 0; border:2px solid #e2e8f0;">
+          <p style="font-weight:700; color:var(--gray); font-size:1rem; margin:0;">余裕があれば</p>
+          <p style="font-size:0.75rem; color:var(--gray); margin:4px 0 0;">Fill-in</p>
+        </div>
+        <div style="display:flex; align-items:center; justify-content:center; font-weight:700; color:var(--gray); font-size:0.8rem; writing-mode:vertical-rl;">工数大</div>
+        <div style="background:var(--primary-light); padding:20px; border-radius:0 0 0 12px; border:2px solid var(--primary);">
+          <p style="font-weight:700; color:var(--primary); font-size:1rem; margin:0;">計画的に</p>
+          <p style="font-size:0.75rem; color:var(--primary); margin:4px 0 0;">Strategic</p>
+        </div>
+        <div style="background:var(--red-light); padding:20px; border-radius:0 0 12px 0; border:2px solid var(--red);">
+          <p style="font-weight:700; color:var(--red); font-size:1rem; margin:0;">やらない</p>
+          <p style="font-size:0.75rem; color:var(--red); margin:4px 0 0;">Don't do</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 42: フィードバック耐性 ===== -->
+    <div class="slide impact-slide" data-slide="41">
+      <span class="slide-badge">42</span>
+      <p class="impact-sub">フィードバック耐性 — ベンチャーでは特に重要</p>
+      <div class="formula">
+        <span class="big">失敗の速度</span>
+        <span class="equals">=</span>
+        <span class="big" style="color:var(--green);">成長速度</span>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 43: 完璧主義の罠 ===== -->
+    <div class="slide" data-slide="42">
+      <span class="slide-badge">43</span>
+      <h2>完璧主義の罠</h2>
+      <div class="compare">
+        <div class="compare-box bad">
+          <h3>100点を目指して遅い</h3>
+          <ul>
+            <li>リリースが遅れる</li>
+            <li>フィードバックが得られない</li>
+            <li>市場に取り残される</li>
+            <li>チームの足を引っ張る</li>
+          </ul>
+        </div>
+        <div class="compare-box good">
+          <h3>60点で出す</h3>
+          <ul>
+            <li>早くリリース</li>
+            <li>フィードバックを得る</li>
+            <li>改善を繰り返す</li>
+            <li>結果的に質も高くなる</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 44 ===== -->
+    <div class="slide impact-slide" data-slide="43">
+      <span class="slide-badge">44</span>
+      <p class="impact-sub">ベンチャーでは</p>
+      <h1><span style="color:var(--green); font-size:2.6rem;">スピード</span> <span style="color:var(--gray);">&gt;</span> <span style="color:var(--gray);">完璧</span></h1>
+      <p class="impact-sub" style="margin-top:12px;">スピードの方が価値がある</p>
+    </div>
+
+    <!-- ===== SLIDE 45: 良い失敗 vs 悪い失敗 ===== -->
+    <div class="slide" data-slide="44">
+      <span class="slide-badge">45</span>
+      <h2>良い失敗 vs 悪い失敗</h2>
+      <div class="compare">
+        <div class="compare-box good">
+          <h3>良い失敗</h3>
+          <ul>
+            <li><strong>早い</strong> — すぐに気づける</li>
+            <li><strong>小さい</strong> — 影響範囲が限定的</li>
+            <li><strong>学びがある</strong> — 次に活かせる</li>
+          </ul>
+        </div>
+        <div class="compare-box bad">
+          <h3>悪い失敗</h3>
+          <ul>
+            <li><strong>隠す</strong> — 問題が大きくなる</li>
+            <li><strong>遅い</strong> — 手遅れになる</li>
+            <li><strong>繰り返す</strong> — 学習がない</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 46: 成長サイクル ===== -->
+    <div class="slide" data-slide="45">
+      <span class="slide-badge">46</span>
+      <h2>成長サイクル</h2>
+      <div class="flow">
+        <div class="flow-item" style="background:var(--primary); color:#fff; border-color:var(--primary);">挑戦</div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-item" style="background:var(--red-light); border-color:var(--red); color:var(--red);">失敗</div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-item" style="background:var(--accent-light); border-color:var(--accent); color:#92400e;">FB</div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-item" style="background:var(--green-light); border-color:var(--green); color:#15803d;">改善</div>
+      </div>
+      <div class="highlight-box purple" style="margin-top:16px;">
+        <p>「失敗したらどうしよう」ではなく「失敗から何を学ぶか」。<br>このマインドセットが成長のエンジンになります。</p>
+      </div>
+      <div class="example-box" style="margin-top:12px;">
+        <div class="label">具体的な行動</div>
+        <p>&#9989; 日報にその日の「学び」を1行書く　&#9989; コードレビューのFBをメモする　&#9989; 「なぜ？」を5分だけ考える</p>
+      </div>
+    </div>
+
+    <!-- ===== Work 3: アクションプラン ===== -->
+    <div class="slide workshop-slide" data-slide="46">
+      <span class="slide-badge" style="color:rgba(255,255,255,0.3);">47</span>
+      <div class="ws-badge">WORKSHOP 3</div>
+      <h1>アクションプラン策定</h1>
+      <p style="font-size:0.95rem;">2:40 - 3:00（20分）</p>
+      <div class="ws-box">
+        <h3>個人ワーク（10分）</h3>
+        <p>今日学んだことを踏まえ、入社後1ヶ月で実践する<br><strong>具体的なアクション</strong>を3つ書き出してください。</p>
+      </div>
+      <div class="ws-box">
+        <h3>発表（10分）</h3>
+        <p>1人1分で発表。最も実践的なアクションを選び、チームとして共有します。</p>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 48: アクションプランシート ===== -->
+    <div class="slide workshop-slide" data-slide="47">
+      <span class="slide-badge" style="color:rgba(255,255,255,0.3);">48</span>
+      <div class="ws-badge">ACTION PLAN SHEET</div>
+      <h2>記入のガイド</h2>
+      <table style="font-size:0.85rem;">
+        <tr>
+          <th style="width:30px;">#</th>
+          <th>カテゴリ</th>
+          <th>具体的なアクション</th>
+          <th>いつやる？</th>
+          <th>達成基準</th>
+        </tr>
+        <tr>
+          <td style="text-align:center; color:#fff;">1</td>
+          <td style="color:rgba(255,255,255,0.5);">自走力</td>
+          <td style="color:rgba(255,255,255,0.5);">例：毎朝タスクの優先順位を自分で整理</td>
+          <td style="color:rgba(255,255,255,0.5);">毎日</td>
+          <td style="color:rgba(255,255,255,0.5);">1ヶ月継続</td>
+        </tr>
+        <tr><td style="text-align:center; color:#fff;">2</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td style="text-align:center; color:#fff;">3</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      </table>
+      <div class="ws-box" style="margin-top:12px;">
+        <h3>カテゴリの例</h3>
+        <p>自走力 / 事業理解 / スピード / フィードバック / コミュニケーション</p>
+      </div>
+    </div>
+
+    <!-- ===== まとめ Section ===== -->
+    <div class="slide section-slide" data-slide="48">
+      <div class="section-num">SUMMARY</div>
+      <h1>まとめ</h1>
+    </div>
+
+    <!-- ===== SLIDE 50: まとめ公式 ===== -->
+    <div class="slide impact-slide" data-slide="49">
+      <span class="slide-badge">50</span>
+      <h2 style="border:none; padding:0;">エンジニアの価値</h2>
+      <div class="formula">
+        <span class="big" style="color:var(--primary);">技術</span>
+        <span class="big"> <span class="op">&times;</span> </span>
+        <span class="big" style="color:var(--accent);">事業理解</span>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 51: Key Takeaways ===== -->
+    <div class="slide" data-slide="50">
+      <span class="slide-badge">51</span>
+      <h2>今日のKey Takeaways</h2>
+      <ul style="font-size:0.95rem;">
+        <li><strong>技術力だけでは評価されない</strong> — 事業インパクトが基準</li>
+        <li><strong>自走力が最重要</strong> — 指示待ちではなく自分で動く</li>
+        <li><strong>経営構造を理解する</strong> — 利益 = 売上 - コスト</li>
+        <li><strong>自分もコスト</strong> — コストを上回る価値を生む</li>
+        <li><strong>フレームワークを使う</strong> — 3C / JTBD / KPIツリー</li>
+        <li><strong>仮説思考で動く</strong> — 事実 &rarr; 仮説 &rarr; 検証 &rarr; 改善</li>
+        <li><strong>60点で出す</strong> — スピード &gt; 完璧</li>
+        <li><strong>良い失敗をする</strong> — 早く・小さく・学びのある失敗</li>
+      </ul>
+    </div>
+
+    <!-- ===== SLIDE 52: 明日から ===== -->
+    <div class="slide" data-slide="51">
+      <span class="slide-badge">52</span>
+      <h2>明日から意識する3つのこと</h2>
+      <div class="card-grid cols-3">
+        <div class="card" style="border-color:var(--primary); border-width:3px;">
+          <div class="card-icon" style="font-size:2rem;">&#129504;</div>
+          <h3>Why を考える</h3>
+          <p>「なぜこのタスクが<br>必要なのか」を<br>常に問いかける</p>
+        </div>
+        <div class="card" style="border-color:var(--accent); border-width:3px;">
+          <div class="card-icon" style="font-size:2rem;">&#128640;</div>
+          <h3>まず動く</h3>
+          <p>完璧を待たず<br>60点で出して<br>フィードバックを得る</p>
+        </div>
+        <div class="card" style="border-color:var(--green); border-width:3px;">
+          <div class="card-icon" style="font-size:2rem;">&#128200;</div>
+          <h3>数字で語る</h3>
+          <p>「良くなった」ではなく<br>「CVRが2%上がった」<br>と報告する</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SLIDE 53: Closing ===== -->
+    <div class="slide title-slide" data-slide="52">
+      <h1 style="font-size:2.2rem;">事業を伸ばせる<br>エンジニアになろう</h1>
+      <p class="subtitle" style="margin-top:24px; font-size:1.1rem;">あなたの技術で、事業を成長させる。</p>
+      <p class="subtitle" style="margin-top:32px; font-size:0.9rem; opacity:0.6;">Thank you</p>
+    </div>
+
+    <!-- ===== SLIDE 54: 参考資料 ===== -->
+    <div class="slide" data-slide="53">
+      <span class="slide-badge">54</span>
+      <h2>参考資料・おすすめ書籍</h2>
+      <div class="card-grid cols-2">
+        <div class="card" style="text-align:left;">
+          <h3>ビジネス理解</h3>
+          <ul style="font-size:0.85rem;">
+            <li>『リーン・スタートアップ』エリック・リース</li>
+            <li>『HARD THINGS』ベン・ホロウィッツ</li>
+            <li>『ジョブ理論』クレイトン・クリステンセン</li>
+          </ul>
+        </div>
+        <div class="card" style="text-align:left;">
+          <h3>思考法</h3>
+          <ul style="font-size:0.85rem;">
+            <li>『イシューからはじめよ』安宅和人</li>
+            <li>『仮説思考』内田和成</li>
+            <li>『問題解決の全体観』中川邦夫</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="slide-nav">
+    <button onclick="changeSlide(-1)">&#8592; 前へ</button>
+    <span class="slide-progress">1 / 54</span>
+    <button onclick="changeSlide(1)">次へ &#8594;</button>
+  </div>
+</div>
+
+<script>
+let currentSlide = 0;
+const slides = document.querySelectorAll('.slide');
+const totalSlides = slides.length;
+
+function changeSlide(dir) {
+  slides[currentSlide].classList.remove('active');
+  currentSlide = Math.max(0, Math.min(totalSlides - 1, currentSlide + dir));
+  slides[currentSlide].classList.add('active');
+  updateNav();
+}
+
+function updateNav() {
+  document.querySelector('.slide-progress').textContent = `${currentSlide + 1} / ${totalSlides}`;
+  const btns = document.querySelectorAll('.slide-nav button');
+  btns[0].disabled = currentSlide === 0;
+  btns[1].disabled = currentSlide === totalSlides - 1;
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); changeSlide(1); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); changeSlide(-1); }
+});
+
+updateNav();
+</script>
+</body>
+</html>
